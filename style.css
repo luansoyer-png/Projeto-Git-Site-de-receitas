@@ -1,0 +1,154 @@
+body { 
+    font-family: 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; 
+    margin: 0; 
+    padding: 20px; 
+    background-color: #fff5f7; 
+    color: #332225;
+}
+
+/* Topbar / Navegação */
+nav { 
+    text-align: center; 
+    margin-bottom: 30px; 
+    background: #ffffff;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(210, 49, 89, 0.05);
+    border: 1px solid #fbc4d0;
+}
+nav a { 
+    margin: 0 15px; 
+    color: #e05275; 
+    text-decoration: none; 
+    font-weight: 600;
+    cursor: pointer; 
+    transition: color 0.2s;
+}
+nav a:hover { 
+    color: #d23159; 
+}
+
+/* Links de texto para alternar telas */
+.text-link {
+    color: #e05275;
+    text-decoration: none;
+    font-weight: bold;
+    cursor: pointer;
+    transition: color 0.2s;
+}
+.text-link:hover {
+    color: #d23159;
+    text-decoration: underline;
+}
+
+/* Estrutura das Telas (Cards) */
+.screen { 
+    display: none; 
+    max-width: 650px; 
+    margin: auto; 
+    background: #ffffff; 
+    padding: 30px; 
+    border-radius: 12px; 
+    box-shadow: 0 4px 15px rgba(210, 49, 89, 0.08); 
+    border: 1px solid #fbc4d0;
+}
+.active { 
+    display: block; 
+}
+
+/* Tipografia */
+h2 {
+    color: #d23159;
+    text-align: center;
+    margin-top: 0;
+    border-bottom: 2px solid #fff5f7;
+    padding-bottom: 10px;
+}
+h3 {
+    color: #e05275;
+    margin-top: 25px;
+    font-size: 1.1rem;
+}
+
+/* Formulários */
+.form-group { 
+    margin-bottom: 18px; 
+}
+label { 
+    display: block; 
+    margin-bottom: 6px; 
+    font-weight: 600; 
+    font-size: 0.9rem;
+    color: #553f43;
+}
+input, select, textarea { 
+    width: 100%; 
+    padding: 10px; 
+    box-sizing: border-box; 
+    border: 1px solid #fbc4d0; 
+    border-radius: 6px; 
+    background-color: #fcfcfc;
+    color: #332225;
+    transition: border-color 0.2s, box-shadow 0.2s;
+}
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    border-color: #e05275;
+    box-shadow: 0 0 0 3px rgba(224, 82, 117, 0.15);
+    background-color: #ffffff;
+}
+
+/* Botões */
+button { 
+    padding: 12px 20px; 
+    background-color: #d23159; 
+    color: white; 
+    border: none; 
+    border-radius: 6px; 
+    cursor: pointer; 
+    font-weight: bold;
+    width: 100%;
+    transition: background-color 0.2s, transform 0.1s;
+}
+button:hover { 
+    background-color: #b32246; 
+}
+button:active {
+    transform: scale(0.98);
+}
+
+/* Botão secundário (Adicionar Ingrediente) */
+button[type="button"] {
+    background-color: #ffffff;
+    color: #e05275;
+    border: 2px solid #e05275;
+    margin-top: 10px;
+}
+button[type="button"]:hover {
+    background-color: #fff5f7;
+    color: #d23159;
+    border-color: #d23159;
+}
+
+/* Linha dinâmica de ingredientes */
+.ingrediente-row { 
+    display: flex; 
+    gap: 10px; 
+    margin-bottom: 12px; 
+}
+
+/* Lista de resultados da busca */
+ul {
+    list-style: none;
+    padding: 0;
+}
+li {
+    background: #fff5f7;
+    padding: 12px;
+    margin-bottom: 8px;
+    border-radius: 6px;
+    border-left: 4px solid #e05275;
+}
+li strong {
+    color: #d23159;
+}
