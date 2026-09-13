@@ -71,33 +71,8 @@ Manual-Lanita/
 └── README.md
 ```
 
-## Como executar
 
-Não é necessário instalar nenhuma dependência.
 
-### 1. Baixe ou clone o projeto
-
-```bash
-git clone URL_DO_REPOSITORIO
-```
-
-### 2. Entre na pasta
-
-```bash
-cd Manual-Lanita
-```
-
-### 3. Abra o projeto
-
-Abra o arquivo:
-
-```text
-index.html
-```
-
-no navegador.
-
-Também é possível utilizar o **Live Server** no Visual Studio Code para executar o projeto.
 
 ## Armazenamento
 
