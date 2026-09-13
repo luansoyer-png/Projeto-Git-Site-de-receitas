@@ -1,0 +1,1465 @@
+```html
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Manual de Delícias da Lanita</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+    <!-- ==========================================
+         NAVEGAÇÃO
+    =========================================== -->
+
+    <nav id="nav-sistema" style="display: none;">
+
+        <a onclick="showScreen('tela-busca')">
+            Buscar Receitas
+        </a>
+
+        <a onclick="showScreen('tela-cadastro')">
+            Cadastrar Receita
+        </a>
+
+        <a onclick="logout()">
+            Sair
+        </a>
+
+    </nav>
+
+
+    <!-- ==========================================
+         LOGIN
+    =========================================== -->
+
+    <div id="tela-login" class="screen active">
+
+        <h2>Manual de Delícias da Lanita</h2>
+
+        <p style="text-align: center; color: #8b4fc7;">
+            Faça login para acessar o caderno
+        </p>
+
+        <form onsubmit="login(event)">
+
+            <div class="form-group">
+
+                <label for="usuario">
+                    Usuário / E-mail:
+                </label>
+
+                <input
+                    type="text"
+                    id="usuario"
+                    required
+                    placeholder="Ex: luan@email.com"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="senha">
+                    Senha:
+                </label>
+
+                <input
+                    type="password"
+                    id="senha"
+                    required
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="perfil">
+                    Simular Perfil de Acesso:
+                </label>
+
+                <select id="perfil">
+
+                    <option value="padrao">
+                        Usuário Padrão (Apenas Públicas)
+                    </option>
+
+                    <option value="privado">
+                        Usuário Privado (Públicas e Privadas)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <button type="submit">
+                Entrar
+            </button>
+
+
+            <p style="text-align: center; margin-top: 20px;">
+
+                Não tem uma conta?
+
+                <button
+                    type="button"
+                    class="btn-link"
+                    onclick="showScreen('tela-cadastro-usuario')"
+                >
+                    Cadastre-se aqui
+                </button>
+
+            </p>
+
+        </form>
+
+    </div>
+
+
+    <!-- ==========================================
+         CADASTRO DE USUÁRIO
+    =========================================== -->
+
+    <div id="tela-cadastro-usuario" class="screen">
+
+        <h2>Criar Nova Conta</h2>
+
+        <p style="text-align: center; color: #8b4fc7;">
+            Cadastre-se para começar a compartilhar receitas
+        </p>
+
+
+        <form onsubmit="cadastrarUsuario(event)">
+
+            <div class="form-group">
+
+                <label for="novo-nome">
+                    Nome Completo:
+                </label>
+
+                <input
+                    type="text"
+                    id="novo-nome"
+                    required
+                    placeholder="Ex: Luan Matos"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="novo-email">
+                    E-mail:
+                </label>
+
+                <input
+                    type="email"
+                    id="novo-email"
+                    required
+                    placeholder="Ex: luan@email.com"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="nova-senha">
+                    Senha:
+                </label>
+
+                <input
+                    type="password"
+                    id="nova-senha"
+                    required
+                    minlength="6"
+                    placeholder="Mínimo 6 caracteres"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="confirmar-senha">
+                    Confirmar Senha:
+                </label>
+
+                <input
+                    type="password"
+                    id="confirmar-senha"
+                    required
+                >
+
+            </div>
+
+
+            <button type="submit">
+                Criar Conta
+            </button>
+
+
+            <p style="text-align: center; margin-top: 20px;">
+
+                Já tem conta?
+
+                <button
+                    type="button"
+                    class="btn-link"
+                    onclick="showScreen('tela-login')"
+                >
+                    Voltar para o Login
+                </button>
+
+            </p>
+
+        </form>
+
+    </div>
+
+
+    <!-- ==========================================
+         BUSCAR RECEITAS
+    =========================================== -->
+
+    <div id="tela-busca" class="screen">
+
+        <h2>Buscar Receitas</h2>
+
+
+        <div class="form-group">
+
+            <input
+                type="text"
+                id="campo-busca"
+                placeholder="Pesquisar por nome da receita..."
+                oninput="buscarReceitas()"
+            >
+
+        </div>
+
+
+        <h3>Resultados</h3>
+
+        <ul id="lista-resultados"></ul>
+
+    </div>
+
+
+    <!-- ==========================================
+         CADASTRO DE RECEITA
+    =========================================== -->
+
+    <div id="tela-cadastro" class="screen">
+
+        <h2>Cadastrar Nova Receita</h2>
+
+
+        <form onsubmit="salvarReceita(event)">
+
+
+            <!-- INFORMAÇÕES BÁSICAS -->
+
+            <h3>Informações Básicas</h3>
+
+
+            <div class="form-group">
+
+                <label for="nome-receita">
+                    Nome da Receita:
+                </label>
+
+                <input
+                    type="text"
+                    id="nome-receita"
+                    required
+                    placeholder="Ex: Bolo de Chocolate"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="tipo-receita">
+                    Tipo de Visibilidade:
+                </label>
+
+                <select id="tipo-receita">
+
+                    <option value="publica">
+                        Pública
+                    </option>
+
+                    <option value="privada" id="opt-privada">
+                        Privada (Exclusiva)
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- INGREDIENTES -->
+
+            <h3>Ingredientes</h3>
+
+
+            <div id="lista-ingredientes">
+
+                <div class="ingrediente-row">
+
+                    <input
+                        type="text"
+                        placeholder="Ingrediente"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        placeholder="Qtd"
+                        required
+                        min="0"
+                        step="any"
+                    >
+
+                    <select>
+
+                        <option value="gramas">
+                            gramas
+                        </option>
+
+                        <option value="ml">
+                            ml
+                        </option>
+
+                        <option value="xicaras">
+                            xícaras
+                        </option>
+
+                        <option value="unidades">
+                            unidade(s)
+                        </option>
+
+                    </select>
+
+
+                    <select>
+
+                        <option value="in natura">
+                            ao natural
+                        </option>
+
+                        <option value="picado">
+                            picado
+                        </option>
+
+                        <option value="triturado">
+                            triturado
+                        </option>
+
+                        <option value="amassado">
+                            amassado
+                        </option>
+
+                    </select>
+
+                </div>
+
+            </div>
+
+
+            <button
+                type="button"
+                class="btn-add-ingrediente"
+                onclick="adicionarIngrediente()"
+            >
+                + Adicionar Ingrediente
+            </button>
+
+
+            <!-- MODO DE PREPARO -->
+
+            <h3>Modo de Preparo</h3>
+
+
+            <div class="form-group">
+
+                <label for="preparo">
+                    Passo a passo:
+                </label>
+
+                <textarea
+                    id="preparo"
+                    rows="6"
+                    placeholder="Descreva as etapas aqui..."
+                    required
+                ></textarea>
+
+            </div>
+
+
+            <!-- INFORMAÇÕES ADICIONAIS -->
+
+            <h3>Informações Adicionais</h3>
+
+
+            <div class="form-group">
+
+                <label for="tempo">
+                    Tempo de Preparo (minutos):
+                </label>
+
+                <input
+                    type="number"
+                    id="tempo"
+                    min="0"
+                    placeholder="Ex: 40"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="rendimento">
+                    Rendimento (porções):
+                </label>
+
+                <input
+                    type="text"
+                    id="rendimento"
+                    placeholder="Ex: 8 porções"
+                >
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="categoria">
+                    Categoria:
+                </label>
+
+                <input
+                    type="text"
+                    id="categoria"
+                    placeholder="Ex: Doces, Massas..."
+                >
+
+            </div>
+
+
+            <button type="submit">
+                Salvar Receita
+            </button>
+
+        </form>
+
+    </div>
+
+
+    <!-- ==========================================
+         VISUALIZAR RECEITA
+    =========================================== -->
+
+    <div id="tela-visualizar" class="screen">
+
+        <h2 id="visualizar-nome">
+            Receita
+        </h2>
+
+
+        <p>
+            <strong>Categoria:</strong>
+            <span id="visualizar-categoria">
+                -
+            </span>
+        </p>
+
+
+        <p>
+            <strong>Visibilidade:</strong>
+            <span id="visualizar-visibilidade">
+                -
+            </span>
+        </p>
+
+
+        <p>
+            <strong>Tempo de preparo:</strong>
+            <span id="visualizar-tempo">
+                -
+            </span>
+            minutos
+        </p>
+
+
+        <p>
+            <strong>Rendimento:</strong>
+            <span id="visualizar-rendimento">
+                -
+            </span>
+        </p>
+
+
+        <h3>Ingredientes</h3>
+
+        <ul id="visualizar-ingredientes"></ul>
+
+
+        <h3>Modo de Preparo</h3>
+
+        <div
+            id="visualizar-preparo"
+            style="white-space: pre-line;"
+        ></div>
+
+
+        <br>
+
+
+        <button
+            type="button"
+            onclick="showScreen('tela-busca')"
+        >
+            Voltar para receitas
+        </button>
+
+    </div>
+
+
+    <!-- ==========================================
+         JAVASCRIPT
+    =========================================== -->
+
+    <script>
+
+
+        // ==========================================
+        // BANCO DE DADOS DE RECEITAS
+        // ==========================================
+
+        const db = {
+
+            chave: 'receitas',
+
+
+            // OBTER TODAS
+
+            obterTodos() {
+
+                const dados =
+                    localStorage.getItem(this.chave);
+
+                if (!dados) {
+                    return [];
+                }
+
+                return JSON.parse(dados);
+            },
+
+
+            // OBTER PELO ID
+
+            obterPeloId(id) {
+
+                const receitas =
+                    this.obterTodos();
+
+                return receitas.find(
+                    receita => receita.id === id
+                );
+            },
+
+
+            // SALVAR
+
+            salvar(receita) {
+
+                const receitas =
+                    this.obterTodos();
+
+
+                const novaReceita = {
+
+                    id: crypto.randomUUID(),
+
+                    ...receita
+
+                };
+
+
+                receitas.push(novaReceita);
+
+
+                localStorage.setItem(
+                    this.chave,
+                    JSON.stringify(receitas)
+                );
+
+
+                return novaReceita;
+            },
+
+
+            // ATUALIZAR
+
+            atualizarPeloId(
+                id,
+                dadosAtualizados
+            ) {
+
+                const receitas =
+                    this.obterTodos();
+
+
+                const indice =
+                    receitas.findIndex(
+                        receita => receita.id === id
+                    );
+
+
+                if (indice === -1) {
+                    return null;
+                }
+
+
+                receitas[indice] = {
+
+                    ...receitas[indice],
+
+                    ...dadosAtualizados,
+
+                    id: id
+
+                };
+
+
+                localStorage.setItem(
+                    this.chave,
+                    JSON.stringify(receitas)
+                );
+
+
+                return receitas[indice];
+            },
+
+
+            // DELETAR
+
+            deletarPeloId(id) {
+
+                const receitas =
+                    this.obterTodos();
+
+
+                const novasReceitas =
+                    receitas.filter(
+                        receita => receita.id !== id
+                    );
+
+
+                if (
+                    novasReceitas.length ===
+                    receitas.length
+                ) {
+
+                    return false;
+                }
+
+
+                localStorage.setItem(
+                    this.chave,
+                    JSON.stringify(novasReceitas)
+                );
+
+
+                return true;
+            }
+
+        };
+
+
+        // ==========================================
+        // PERFIL DO USUÁRIO
+        // ==========================================
+
+        let perfilUsuario = 'padrao';
+
+
+        // ==========================================
+        // TROCAR DE TELA
+        // ==========================================
+
+        function showScreen(screenId) {
+
+            const screens =
+                document.querySelectorAll('.screen');
+
+
+            screens.forEach(screen => {
+
+                screen.classList.remove('active');
+
+            });
+
+
+            const targetScreen =
+                document.getElementById(screenId);
+
+
+            if (targetScreen) {
+
+                targetScreen.classList.add('active');
+
+                window.scrollTo(0, 0);
+
+            }
+
+        }
+
+
+        // ==========================================
+        // LOGIN
+        // ==========================================
+
+        function login(event) {
+
+            event.preventDefault();
+
+
+            perfilUsuario =
+                document.getElementById(
+                    'perfil'
+                ).value;
+
+
+            const optPrivada =
+                document.getElementById(
+                    'opt-privada'
+                );
+
+
+            if (perfilUsuario === 'padrao') {
+
+                if (optPrivada) {
+
+                    optPrivada.disabled = true;
+
+                }
+
+
+                document.getElementById(
+                    'tipo-receita'
+                ).value = 'publica';
+
+
+            } else {
+
+                if (optPrivada) {
+
+                    optPrivada.disabled = false;
+
+                }
+
+            }
+
+
+            document.getElementById(
+                'nav-sistema'
+            ).style.display = 'block';
+
+
+            showScreen('tela-busca');
+
+
+            buscarReceitas();
+
+        }
+
+
+        // ==========================================
+        // CADASTRAR USUÁRIO
+        // ==========================================
+
+        function cadastrarUsuario(event) {
+
+            event.preventDefault();
+
+
+            const nome =
+                document.getElementById(
+                    'novo-nome'
+                ).value;
+
+
+            const email =
+                document.getElementById(
+                    'novo-email'
+                ).value;
+
+
+            const senha =
+                document.getElementById(
+                    'nova-senha'
+                ).value;
+
+
+            const confirmar =
+                document.getElementById(
+                    'confirmar-senha'
+                ).value;
+
+
+            if (senha.length < 6) {
+
+                alert(
+                    'A senha deve possuir pelo menos 6 caracteres.'
+                );
+
+                return;
+
+            }
+
+
+            if (senha !== confirmar) {
+
+                alert(
+                    'Atenção: As senhas não coincidem!'
+                );
+
+                return;
+
+            }
+
+
+            alert(
+                `Conta de ${nome} criada com sucesso!`
+            );
+
+
+            event.target.reset();
+
+
+            showScreen('tela-login');
+
+        }
+
+
+        // ==========================================
+        // LOGOUT
+        // ==========================================
+
+        function logout() {
+
+            document.getElementById(
+                'nav-sistema'
+            ).style.display = 'none';
+
+
+            document.getElementById(
+                'campo-busca'
+            ).value = '';
+
+
+            showScreen('tela-login');
+
+        }
+
+
+        // ==========================================
+        // ADICIONAR INGREDIENTE
+        // ==========================================
+
+        function adicionarIngrediente() {
+
+            const container =
+                document.getElementById(
+                    'lista-ingredientes'
+                );
+
+
+            const novaLinha =
+                document.createElement('div');
+
+
+            novaLinha.className =
+                'ingrediente-row';
+
+
+            novaLinha.innerHTML = `
+
+                <input
+                    type="text"
+                    placeholder="Ingrediente"
+                    required
+                >
+
+                <input
+                    type="number"
+                    placeholder="Qtd"
+                    required
+                    min="0"
+                    step="any"
+                >
+
+                <select>
+
+                    <option value="gramas">
+                        gramas
+                    </option>
+
+                    <option value="ml">
+                        ml
+                    </option>
+
+                    <option value="xicaras">
+                        xícaras
+                    </option>
+
+                    <option value="unidades">
+                        unidade(s)
+                    </option>
+
+                </select>
+
+                <select>
+
+                    <option value="in natura">
+                        ao natural
+                    </option>
+
+                    <option value="picado">
+                        picado
+                    </option>
+
+                    <option value="triturado">
+                        triturado
+                    </option>
+
+                    <option value="amassado">
+                        amassado
+                    </option>
+
+                </select>
+
+            `;
+
+
+            container.appendChild(novaLinha);
+
+        }
+
+
+        // ==========================================
+        // SALVAR RECEITA
+        // ==========================================
+
+        function salvarReceita(event) {
+
+            event.preventDefault();
+
+
+            const nome =
+                document.getElementById(
+                    'nome-receita'
+                ).value;
+
+
+            const visibilidade =
+                document.getElementById(
+                    'tipo-receita'
+                ).value;
+
+
+            const preparo =
+                document.getElementById(
+                    'preparo'
+                ).value;
+
+
+            const tempo =
+                document.getElementById(
+                    'tempo'
+                ).value;
+
+
+            const rendimento =
+                document.getElementById(
+                    'rendimento'
+                ).value;
+
+
+            const categoria =
+                document.getElementById(
+                    'categoria'
+                ).value;
+
+
+            // COLETAR INGREDIENTES
+
+            const linhas =
+                document.querySelectorAll(
+                    '#lista-ingredientes .ingrediente-row'
+                );
+
+
+            const ingredientes = [];
+
+
+            linhas.forEach(linha => {
+
+                const campos =
+                    linha.querySelectorAll(
+                        'input, select'
+                    );
+
+
+                ingredientes.push({
+
+                    nome: campos[0].value,
+
+                    quantidade: campos[1].value,
+
+                    unidade: campos[2].value,
+
+                    preparo: campos[3].value
+
+                });
+
+            });
+
+
+            // OBJETO DA RECEITA
+
+            const receita = {
+
+                nome: nome,
+
+                visibilidade: visibilidade,
+
+                ingredientes: ingredientes,
+
+                preparo: preparo,
+
+                tempo: tempo,
+
+                rendimento: rendimento,
+
+                categoria: categoria
+
+            };
+
+
+            // SALVAR NO BANCO
+
+            const novaReceita =
+                db.salvar(receita);
+
+
+            console.log(
+                'Receita salva:',
+                novaReceita
+            );
+
+
+            alert(
+                'Receita cadastrada com sucesso!'
+            );
+
+
+            // LIMPAR FORMULÁRIO
+
+            event.target.reset();
+
+
+            // RESTAURAR PRIMEIRO INGREDIENTE
+
+            document.getElementById(
+                'lista-ingredientes'
+            ).innerHTML = `
+
+                <div class="ingrediente-row">
+
+                    <input
+                        type="text"
+                        placeholder="Ingrediente"
+                        required
+                    >
+
+                    <input
+                        type="number"
+                        placeholder="Qtd"
+                        required
+                        min="0"
+                        step="any"
+                    >
+
+                    <select>
+
+                        <option value="gramas">
+                            gramas
+                        </option>
+
+                        <option value="ml">
+                            ml
+                        </option>
+
+                        <option value="xicaras">
+                            xícaras
+                        </option>
+
+                        <option value="unidades">
+                            unidade(s)
+                        </option>
+
+                    </select>
+
+                    <select>
+
+                        <option value="in natura">
+                            ao natural
+                        </option>
+
+                        <option value="picado">
+                            picado
+                        </option>
+
+                        <option value="triturado">
+                            triturado
+                        </option>
+
+                        <option value="amassado">
+                            amassado
+                        </option>
+
+                    </select>
+
+                </div>
+
+            `;
+
+
+            // VOLTAR PARA BUSCA
+
+            showScreen('tela-busca');
+
+
+            buscarReceitas();
+
+        }
+
+
+        // ==========================================
+        // BUSCAR RECEITAS
+        // ==========================================
+
+        function buscarReceitas() {
+
+            const lista =
+                document.getElementById(
+                    'lista-resultados'
+                );
+
+
+            const campo =
+                document.getElementById(
+                    'campo-busca'
+                );
+
+
+            const termo =
+                campo
+                    ? campo.value.toLowerCase()
+                    : '';
+
+
+            const receitas =
+                db.obterTodos();
+
+
+            lista.innerHTML = '';
+
+
+            // FILTRAR
+
+            const receitasFiltradas =
+                receitas.filter(receita => {
+
+
+                    // PADRÃO SÓ VÊ PÚBLICAS
+
+                    if (
+                        perfilUsuario === 'padrao' &&
+                        receita.visibilidade !== 'publica'
+                    ) {
+
+                        return false;
+
+                    }
+
+
+                    const nome =
+                        receita.nome.toLowerCase();
+
+
+                    return nome.includes(termo);
+
+                });
+
+
+            // NENHUMA RECEITA
+
+            if (
+                receitasFiltradas.length === 0
+            ) {
+
+                lista.innerHTML = `
+
+                    <li>
+                        Nenhuma receita encontrada.
+                    </li>
+
+                `;
+
+                return;
+
+            }
+
+
+            // MOSTRAR RECEITAS
+
+            receitasFiltradas.forEach(receita => {
+
+                const item =
+                    document.createElement('li');
+
+
+                item.innerHTML = `
+
+                    <strong>
+                        ${receita.nome}
+                    </strong>
+
+                    <br>
+
+                    Categoria:
+                    ${receita.categoria || 'Não informada'}
+
+                    <br>
+
+                    Visibilidade:
+                    ${receita.visibilidade}
+
+                    <br><br>
+
+                    <button
+                        type="button"
+                        onclick="visualizarReceita('${receita.id}')"
+                    >
+                        Visualizar Receita
+                    </button>
+
+                    <button
+                        type="button"
+                        onclick="excluirReceita('${receita.id}')"
+                    >
+                        Excluir
+                    </button>
+
+                `;
+
+
+                lista.appendChild(item);
+
+            });
+
+        }
+
+
+        // ==========================================
+        // VISUALIZAR RECEITA
+        // ==========================================
+
+        function visualizarReceita(id) {
+
+            const receita =
+                db.obterPeloId(id);
+
+
+            if (!receita) {
+
+                alert(
+                    'Receita não encontrada.'
+                );
+
+                return;
+
+            }
+
+
+            // NOME
+
+            document.getElementById(
+                'visualizar-nome'
+            ).textContent =
+                receita.nome;
+
+
+            // CATEGORIA
+
+            document.getElementById(
+                'visualizar-categoria'
+            ).textContent =
+                receita.categoria ||
+                'Não informada';
+
+
+            // VISIBILIDADE
+
+            document.getElementById(
+                'visualizar-visibilidade'
+            ).textContent =
+                receita.visibilidade;
+
+
+            // TEMPO
+
+            document.getElementById(
+                'visualizar-tempo'
+            ).textContent =
+                receita.tempo ||
+                'Não informado';
+
+
+            // RENDIMENTO
+
+            document.getElementById(
+                'visualizar-rendimento'
+            ).textContent =
+                receita.rendimento ||
+                'Não informado';
+
+
+            // PREPARO
+
+            document.getElementById(
+                'visualizar-preparo'
+            ).textContent =
+                receita.preparo;
+
+
+            // INGREDIENTES
+
+            const listaIngredientes =
+                document.getElementById(
+                    'visualizar-ingredientes'
+                );
+
+
+            listaIngredientes.innerHTML = '';
+
+
+            receita.ingredientes.forEach(
+                ingrediente => {
+
+                    const item =
+                        document.createElement('li');
+
+
+                    item.innerHTML = `
+
+                        <strong>
+                            ${ingrediente.nome}
+                        </strong>
+
+                        —
+                        ${ingrediente.quantidade}
+                        ${ingrediente.unidade}
+
+                        (${ingrediente.preparo})
+
+                    `;
+
+
+                    listaIngredientes.appendChild(
+                        item
+                    );
+
+                }
+            );
+
+
+            showScreen(
+                'tela-visualizar'
+            );
+
+        }
+
+
+        // ==========================================
+        // DELETAR RECEITA
+        // ==========================================
+
+        function excluirReceita(id) {
+
+            const receita =
+                db.obterPeloId(id);
+
+
+            if (!receita) {
+
+                alert(
+                    'Receita não encontrada.'
+                );
+
+                return;
+
+            }
+
+
+            const confirmar =
+                confirm(
+                    `Deseja excluir a receita "${receita.nome}"?`
+                );
+
+
+            if (!confirmar) {
+                return;
+            }
+
+
+            const deletado =
+                db.deletarPeloId(id);
+
+
+            if (deletado) {
+
+                alert(
+                    'Receita excluída com sucesso!'
+                );
+
+
+                buscarReceitas();
+
+            }
+
+        }
+
+    </script>
+
+</body>
+
+</html>
+```
+
